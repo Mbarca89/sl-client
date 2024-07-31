@@ -11,6 +11,7 @@ import { useRecoilState } from "recoil"
 import { Spinner } from 'react-bootstrap';
 import { useState } from 'react';
 import handleError from '../../utils/HandleErrors';
+import { encryptPassword } from '../../utils/passwordHasher';
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 interface EditUserProps {
@@ -66,8 +67,16 @@ const EditUser: React.FC<EditUserProps> = ({ user, onUpdateUser }) => {
         validate,
         onSubmit: async (values) => {
             setLoading(true)
+            const editUser = {
+                name: values.name,
+                surname: values.surname,
+                userName: values.userName,
+                password: encryptPassword(values.password),
+                area: values.area,
+                role: values.role
+            }
             try {
-                const res = await axiosWithToken.post(`${SERVER_URL}/api/v1/users/edit`, values)
+                const res = await axiosWithToken.post(`${SERVER_URL}/api/v1/users/edit`, editUser)
                 notifySuccess(res.data)
                 onUpdateUser(values)
                 setShow(false)
