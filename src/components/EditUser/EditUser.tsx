@@ -68,9 +68,10 @@ const EditUser: React.FC<EditUserProps> = ({ user, onUpdateUser }) => {
         onSubmit: async (values) => {
             setLoading(true)
             const editUser = {
+                id: user.id,
                 name: values.name,
                 surname: values.surname,
-                userName: values.userName,
+                userName: values.userName.toLowerCase(),
                 password: encryptPassword(values.password),
                 area: values.area,
                 role: values.role
