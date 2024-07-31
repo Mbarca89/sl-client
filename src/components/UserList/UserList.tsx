@@ -5,6 +5,8 @@ import { axiosWithToken } from "../../utils/axiosInstances";
 import CustomModal from '../Modal/CustomModal';
 import { modalState } from "../../app/store"
 import { useRecoilState } from "recoil"
+import DeleteUser from '../DeleteUser/DeleteUser';
+import EditUser from '../EditUser/EditUser';
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 const UserList = () => {
@@ -95,12 +97,12 @@ const UserList = () => {
                     )}
                     {show &&
                         editUser && <CustomModal title="Editar usuario">
-                            {/* <EditUser user={selectedUser} onUpdateUser={updateUsers} /> */}
+                            <EditUser user={selectedUser} onUpdateUser={updateUsers} />
                         </CustomModal>
                     }
                     {show &&
                         deleteUser && <CustomModal title="Eliminar usuario">
-                            {/* <DeleteUser user={selectedUser} onUpdateUser={updateUsers} /> */}
+                            <DeleteUser user={selectedUser} onUpdateUser={updateUsers} />
                         </CustomModal>
                     }
                 </tbody>

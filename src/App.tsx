@@ -60,7 +60,7 @@ const App = () => {
     if (user.role === "Administrador") {
       console.log("me conecto");
 
-      const socket = new SockJS('http://localhost:8080/ws');
+      const socket = new SockJS('http://172.20.20.69:8080/ws');
       const client = Stomp.over(socket);
 
       client.connect({}, (frame) => {
