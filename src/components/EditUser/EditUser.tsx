@@ -12,6 +12,7 @@ import { Spinner } from 'react-bootstrap';
 import { useState } from 'react';
 import handleError from '../../utils/HandleErrors';
 import { encryptPassword } from '../../utils/passwordHasher';
+import { areas } from '../../utils/areas';
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 interface EditUserProps {
@@ -158,6 +159,25 @@ const EditUser: React.FC<EditUserProps> = ({ user, onUpdateUser }) => {
                     <Form.Control.Feedback type="invalid">{formik.errors.repeatPassword}</Form.Control.Feedback>
                 </Form.Group>
             </Row>
+            <Row className="mb-2">
+                    <Form.Group as={Col} xs={12} lg={6}>
+                        <Form.Label className='text-light'>Área</Form.Label>
+                        <Form.Select
+                            id="area"
+                            name="area"
+                            value={formik.values.area}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isInvalid={!!(formik.touched.area && formik.errors.area)}
+                        >
+                            <option value="">Seleccionar...</option>
+                            {areas.map((area) => 
+                                <option key={area} value={area}>{area}</option>
+                            )}
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">{formik.errors.area}</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
             <Row className='mb-5'>
                 <Form.Group as={Col} xs={12} lg={6}>
                     <Form.Label>Rol</Form.Label>
