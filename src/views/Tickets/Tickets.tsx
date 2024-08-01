@@ -8,16 +8,16 @@ const Tickets = () => {
         setCurrentTab("myTickets")
     }
 
-    const [currentTab, setCurrentTab] = useState("myTickets")
+    const [currentTab, setCurrentTab] = useState("newTicket")
 
     return (
         <div className='container flex-grow-1 p-lg-3 p-sm-0 rounded bg-dark-800 m-2 overflow-auto'>
             <Nav variant="tabs" defaultActiveKey="users" activeKey={currentTab}>
                 <Nav.Item>
-                    <Nav.Link eventKey="myTickets" onClick={() => setCurrentTab("myTickets")}>Mis Tickets</Nav.Link>
+                    <Nav.Link eventKey="newTicket" onClick={() => setCurrentTab("newTicket")}>Nuevo Ticket</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link eventKey="newTicket" onClick={() => setCurrentTab("newTicket")}>Nuevo Ticket</Nav.Link>
+                    <Nav.Link eventKey="myTickets" onClick={() => setCurrentTab("myTickets")}>Mis Tickets</Nav.Link>
                 </Nav.Item>
             </Nav>
             <div className="mt-3">

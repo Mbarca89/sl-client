@@ -5,10 +5,12 @@ import { axiosWithToken } from "../../utils/axiosInstances"
 import handleError from "../../utils/HandleErrors";
 import { useRecoilState } from "recoil";
 import { userState } from "../../app/store";
+import { useNavigate } from "react-router-dom";
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 const TicketList = () => {
 
+    const navigate = useNavigate()
     const [tickets, setTickets] = useState<ticket[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const [user, setUser] = useRecoilState(userState)
@@ -102,7 +104,7 @@ const TicketList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {tickets.map(ticket => <tr key={String(ticket.id)}>
+                    {tickets.map(ticket => <tr key={String(ticket.id)} onClick={() => navigate(`/ticket/${ticket.id}`)} role="button">
                         <td>{ticket.id}</td>
                         <td>{ticket.date}</td>
                         <td>{ticket.area}</td>

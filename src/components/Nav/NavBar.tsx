@@ -27,7 +27,8 @@ const NavBar = () => {
             surname: "",
             userName: "",
             role: "",
-            area: ""
+            area: "",
+            token: ""
         })
 
         localStorage.clear()
@@ -44,17 +45,21 @@ const NavBar = () => {
                     <Navbar.Collapse id="basic-navbar-nav text-light">
                         <Nav className="me-auto">
                             <Nav.Link onClick={() => { navigate("/home"); handleNavLinkClick() }}>Inicio</Nav.Link>
-                            {user.role == "Administrador" && <NavDropdown title="Administrar" id="basic-nav-dropdown">
+                            {user.role === "Administrador" && <NavDropdown title="Administrar" id="basic-nav-dropdown">
                                 <NavDropdown.Item onClick={() => { navigate("/users"); handleNavLinkClick() }}>Usuarios</NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => { navigate("/ticketReports"); handleNavLinkClick() }}>Tickets</NavDropdown.Item>
                             </NavDropdown>}
-                            <Nav.Link onClick={() => { navigate("/tickets"); handleNavLinkClick() }}>Tickets</Nav.Link>
+                            {user.role === "Administrador" && <Nav.Link onClick={() => { navigate("/tickets"); handleNavLinkClick() }}>Tickets</Nav.Link>}
                         </Nav>
                         <hr />
                         <Navbar.Text>
-                            Bienvenido {user.name}!
+                            <NavDropdown title={`Bienvenido ${user.name}!`} id="basic-nav-dropdown">
+                                <NavDropdown.Item onClick={()=>navigate("/user")}>Perfil</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item className="text-dark" onClick={logOut}>Salir</NavDropdown.Item>
+                            </NavDropdown>
                         </Navbar.Text>
-                        <Nav.Link className="m-2 text-dark" onClick={logOut}> Salir</Nav.Link>
+                        <Nav.Link>Salir</Nav.Link>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

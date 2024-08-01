@@ -3,14 +3,13 @@ import { Routes, Route, Outlet, Navigate } from "react-router-dom"
 import { useState, useEffect, Suspense } from "react"
 import { useRecoilState } from "recoil"
 import { logState, userState } from "./app/store"
-import { Toaster } from 'react-hot-toast';
 import NavBar from "./components/Nav/NavBar"
 import Landing from "./views/landing/Landing"
-import Home from "./views/Home/Home"
 import Users from "./views/Users/Users"
 import Tickets from "./views/Tickets/Tickets"
 import TicketReports from "./views/TicketReports/TicketReports"
 import TicketDetail from "./views/TicketDetail/TicketDetail"
+import UserDetail from "./views/UserDetail/UserDetail"
 import SockJS from 'sockjs-client';
 import type { Client } from 'stompjs';
 import Stomp from 'stompjs';
@@ -60,7 +59,7 @@ const App = () => {
     if (user.role === "Administrador") {
       console.log("me conecto");
 
-      const socket = new SockJS('http://172.20.20.69:8080/ws');
+      const socket = new SockJS('http://172.20.20.190:8080/ws');
       const client = Stomp.over(socket);
 
       client.connect({}, (frame) => {
@@ -73,7 +72,7 @@ const App = () => {
           const hours = now.getHours();
           const minutes = now.getMinutes();
           const seconds = now.getSeconds();
-          notifyTicket(message.body + ` ${hours}:${minutes}:${seconds}`); // Muestra una notificación
+          notifyTicket(message.body, ` ${hours}:${minutes}:${seconds}`); // Muestra una notificación
         });
       }, (error) => {
         console.error('Error connecting to WebSocket server:', error);
@@ -114,6 +113,7 @@ const App = () => {
           <Route path="/home" element={isLogged ? user.role === "Administrador" ? <TicketReports /> : <Tickets /> : <Navigate to="/" />} />
           <Route path="/tickets" element={isLogged ? <Tickets /> : <Navigate to="/" />} />
           <Route path="/ticket/:ticketId" element={isLogged ? <TicketDetail /> : <Navigate to="/" />} />
+          <Route path="/user" element={isLogged ? <UserDetail /> : <Navigate to="/" />} />
           <Route path="/users" element={isLogged && user.role === "Administrador" ? <Users /> : <Navigate to="/" />} />
           <Route path="/ticketReports" element={isLogged && user.role === "Administrador" ? <TicketReports /> : <Navigate to="/" />} />
         </Route>

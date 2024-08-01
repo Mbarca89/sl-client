@@ -22,11 +22,12 @@ export const notifySuccess = (message:string) => {
     });
 }
 
-export const notifyTicket = (message: string) => {
-  toast.success(message, {
+export const notifyTicket = (message: string, time:string) => {
+  toast.success(<Notification message={message} time={time}/>, {
     position: 'bottom-right',
     autoClose: false,
     closeButton: true,
+    closeOnClick: true,
     style: {
       textAlign: 'center',
     },

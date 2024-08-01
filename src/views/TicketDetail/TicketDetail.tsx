@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import { useFormik } from "formik";
 import { useRecoilState } from "recoil";
-import { modalState } from "../../app/store";
+import { modalState, userState } from "../../app/store";
 import CustomModal from "../../components/Modal/CustomModal";
 import CloseTicket from "../../components/CloseTicket/CloseTicket";
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
@@ -15,6 +15,7 @@ const TicketDetail = () => {
 
     const { ticketId } = useParams()
     const [show, setShow] = useRecoilState(modalState)
+    const [user, setUser] = useRecoilState(userState)
     const [loading, setLoading] = useState<boolean>(false)
     const [ticket, setTicket] = useState<ticket>({
         id: "",
@@ -134,12 +135,12 @@ const TicketDetail = () => {
                             />
                         </Form.Group>
                     </Row>
-                    <Row className="mb-2">
+                    {ticket.image && <Row className="mb-2">
                         <div className="d-flex flex-column justify-content-center align-items-center">
                             <Form.Label>Imagen adjunta:</Form.Label>
                             <img className="w-50 mb-1" src={ticket.image ? `data:image/jpeg;base64,${ticket.image}` : "null"} alt="" />
                         </div>
-                    </Row>
+                    </Row>}
                     {ticket.closed && <Row>
                         <Form.Group className="m-auto" as={Col} xs={12} md={6}>
                             <Form.Label>Solución</Form.Label>
@@ -163,7 +164,7 @@ const TicketDetail = () => {
                                     Volver
                                 </Button>
                             </div>
-                            {!ticket.closed &&
+                            {!ticket.closed && user.role === "Administrador" &&
                                 <div className='d-flex align-items-center justify-content-center w-25'>
                                     <Button className="" variant="primary" onClick={handleCloseTicket}>
                                         Cerrar ticket

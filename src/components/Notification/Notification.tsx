@@ -1,17 +1,18 @@
 import type React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface NotificationProps {
   message: string;
-  onClose: () => void;
+  time: string
 }
 
-const Notification: React.FC<NotificationProps> = ({ message, onClose }) => {
+const Notification: React.FC<NotificationProps> = ({ message, time }) => {
+
+  const navigate = useNavigate()
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px', background: '#333', color: '#fff', borderRadius: '5px' }}>
-      <span>{message}</span>
-      <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer' }}>
-        &#10005; {/* Icono de cierre (X) */}
-      </button>
+    <div role='button' onClick={()=>navigate(`/ticket/${message.split("/")[1]}`)}>
+      <span>{message.split("/")[0]}. Hora: {time}</span>
     </div>
   );
 };

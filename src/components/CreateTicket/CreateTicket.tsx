@@ -27,10 +27,13 @@ const CreateTicket: React.FC<CreateTicketProps> = ({ updateList }) => {
         if (!values.title.trim()) {
             errors.title = 'Ingrese el título';
         }
-
+        if (!values.type.trim()) {
+            errors.type = 'Seleccione un tipo';
+        }
         if (!values.description.trim()) {
             errors.description = 'Ingrese una descripción';
         }
+    
         return errors;
     };
 
@@ -56,14 +59,10 @@ const CreateTicket: React.FC<CreateTicketProps> = ({ updateList }) => {
             if (image) formData.append('file', image);
             formData.append('ticket', JSON.stringify(createTicket));
             try {
-                console.log(createTicket);
-                
                 const res = await axiosWithToken.post(`${SERVER_URL}/api/tickets/create`, formData)
                 notifySuccess(res.data)
                 updateList()
             } catch (error: any) {
-                console.log(error);
-                
                 handleError(error)
             } finally {
                 setLoading(false)
