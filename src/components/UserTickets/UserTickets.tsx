@@ -109,7 +109,7 @@ const TicketList = () => {
                         <td>{ticket.date}</td>
                         <td>{ticket.area}</td>
                         <td>{ticket.title}</td>
-                        <td>{ticket.closed ? "Cerrado" : "Pendiente"}</td>
+                        <td className={!ticket.closed ? "bg-danger" : "bg-success"}>{ticket.closed ? "Cerrado" : "Pendiente"}</td>
                     </tr>)}
                 </tbody>
             </Table>

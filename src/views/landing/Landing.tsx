@@ -28,7 +28,17 @@ const Landing = () => {
     })
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = event.target        
+        const { name, value } = event.target
+        setUserData((prevState) => {
+            return {
+                ...prevState,
+                [name]: value
+            }
+        })
+    }
+
+    const rememberHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = event.target
         setUserData((prevState) => {
             return {
                 ...prevState,
@@ -96,7 +106,7 @@ const Landing = () => {
                         <input autoComplete="off" id="logpass" placeholder="Contraseña" className="input-field" name="password" type="password" value={userData.password.toString()} onChange={changeHandler} />
                     </div>
                     <div className="field d-flex justify-content-start">
-                        <input autoComplete="off" id="remember" name="remember" type="checkbox" checked={userData.remember} onChange={changeHandler} />
+                        <input autoComplete="off" id="remember" name="remember" type="checkbox" checked={userData.remember} onChange={rememberHandler} />
                         <span className='' style={{ color: "gray" }}>Recordarme</span>
                     </div>
                     <button className="loginbtn" type="submit">Login</button>
