@@ -177,9 +177,9 @@ const TicketDetail = () => {
                     <CloseTicket updateTicket={getTicket} ticketId={ticket.id}></CloseTicket>
                 </CustomModal>}
             {show && modal === "image" &&
-                <CustomModal title="Imagen adjunta">
+                <CustomModal title="Imagen adjunta" fullscreen={true}>
                     <div className="d-flex justify-content-center">
-                        <img className="mb-1" src={ticket.image ? `data:image/jpeg;base64,${ticket.image}` : "null"} alt="" />
+                        <img className="w-100 mb-1" src={ticket.image ? `data:image/jpeg;base64,${ticket.image}` : "null"} alt="" />
                     </div>
                 </CustomModal>}
         </div>
