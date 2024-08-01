@@ -16,6 +16,7 @@ import Stomp from 'stompjs';
 import { notifyTicket } from "./components/Toaster/Toaster"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 const App = () => {
 
@@ -59,7 +60,7 @@ const App = () => {
     if (user.role === "Administrador") {
       console.log("me conecto");
 
-      const socket = new SockJS('http://172.20.20.190:8080/ws');
+      const socket = new SockJS(`${SERVER_URL}/ws`);
       const client = Stomp.over(socket);
 
       client.connect({}, (frame) => {
