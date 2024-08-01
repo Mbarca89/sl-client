@@ -28,12 +28,11 @@ const Landing = () => {
     })
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target
-
+        const { name, checked } = event.target        
         setUserData((prevState) => {
             return {
                 ...prevState,
-                [name]: value,
+                [name]: checked
             }
         })
     }
