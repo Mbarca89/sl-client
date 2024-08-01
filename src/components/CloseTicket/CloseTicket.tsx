@@ -44,7 +44,6 @@ const CloseTicket: React.FC<CloseTicketProps> = ({ updateTicket, ticketId }) => 
                 solvedBy: user.name + " " + user.surname,
                 closed: true
             }
-            console.log(closeTicket);
             
             try {
                 const res = await axiosWithToken.put(`${SERVER_URL}/api/tickets/close`, closeTicket)

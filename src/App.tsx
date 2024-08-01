@@ -58,8 +58,6 @@ const App = () => {
 
   useEffect(() => {
     if (user.role === "Administrador") {
-      console.log("me conecto");
-
       const socket = new SockJS(`${SERVER_URL}/ws`);
       const client = Stomp.over(socket);
 

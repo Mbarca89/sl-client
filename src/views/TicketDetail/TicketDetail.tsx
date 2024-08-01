@@ -17,6 +17,8 @@ const TicketDetail = () => {
     const [show, setShow] = useRecoilState(modalState)
     const [user, setUser] = useRecoilState(userState)
     const [loading, setLoading] = useState<boolean>(false)
+    const [modal, setModal] = useState<string>("clsoe")
+    const [image, setImage] = useState<string>("")
     const [ticket, setTicket] = useState<ticket>({
         id: "",
         userId: "",
@@ -39,8 +41,6 @@ const TicketDetail = () => {
         try {
             const res = await axiosWithToken.get(`${SERVER_URL}/api/tickets/getTicket?ticketId=${ticketId}`)
             if (res.data) {
-                console.log(res.data);
-
                 setTicket(res.data)
             }
         } catch (error) {
@@ -68,22 +68,17 @@ const TicketDetail = () => {
         },
         enableReinitialize: true,
         onSubmit: async values => {
-            setLoading(true)
-
-            try {
-                console.log("nada");
-
-            } catch (error: any) {
-                console.log(error);
-
-                handleError(error)
-            } finally {
-                setLoading(false)
-            }
+            return null
         },
     });
 
     const handleCloseTicket = () => {
+        setModal("close")
+        setShow(true)
+    }
+
+    const handleImage = () => {
+        setModal("image")
         setShow(true)
     }
 
@@ -104,7 +99,7 @@ const TicketDetail = () => {
                     {ticket.closed && <p className={!ticket.closed ? "text-danger" : "text-success"}><b>Cerrado por: </b>{ticket.solvedBy}</p>}
                     {ticket.closed && <p className={!ticket.closed ? "text-danger" : "text-success"}><b>Cerrado el día: </b>{ticket.solvedDate}</p>}
                 </div>
-                <Form onSubmit={formik.handleSubmit} noValidate>
+                <Form noValidate>
                     <Row>
                         <Form.Group className="m-auto" as={Col} xs={12} md={6}>
                             <Form.Label>Tipo</Form.Label>
@@ -138,7 +133,7 @@ const TicketDetail = () => {
                     {ticket.image && <Row className="mb-2">
                         <div className="d-flex flex-column justify-content-center align-items-center">
                             <Form.Label>Imagen adjunta:</Form.Label>
-                            <img className="w-50 mb-1" src={ticket.image ? `data:image/jpeg;base64,${ticket.image}` : "null"} alt="" />
+                            <img role= "button" onClick={handleImage} className="w-50 mb-1" src={ticket.image ? `data:image/jpeg;base64,${ticket.image}` : "null"} alt="" />
                         </div>
                     </Row>}
                     {ticket.closed && <Row>
@@ -177,9 +172,15 @@ const TicketDetail = () => {
                 <>
                     <Spinner></Spinner>
                 </>}
-            {show &&
+            {show && modal === "close" &&
                 <CustomModal title="Cerrar Ticket">
                     <CloseTicket updateTicket={getTicket} ticketId={ticket.id}></CloseTicket>
+                </CustomModal>}
+            {show && modal === "image" &&
+                <CustomModal title="Imagen adjunta">
+                    <div className="d-flex justify-content-center">
+                        <img className="mb-1" src={ticket.image ? `data:image/jpeg;base64,${ticket.image}` : "null"} alt="" />
+                    </div>
                 </CustomModal>}
         </div>
     )
