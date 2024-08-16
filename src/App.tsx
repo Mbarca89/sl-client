@@ -16,6 +16,7 @@ import Stomp from 'stompjs';
 import { notifyTicket } from "./components/Toaster/Toaster"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Statistics from "./views/Statistics/Statistics"
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 const App = () => {
@@ -115,6 +116,7 @@ const App = () => {
           <Route path="/user" element={isLogged ? <UserDetail /> : <Navigate to="/" />} />
           <Route path="/users" element={isLogged && user.role === "Administrador" ? <Users /> : <Navigate to="/" />} />
           <Route path="/ticketReports" element={isLogged && user.role === "Administrador" ? <TicketReports /> : <Navigate to="/" />} />
+          <Route path="/statistics" element={isLogged && user.role === "Administrador" ? <Statistics /> : <Navigate to="/" />} />
         </Route>
         <Route path="/" element={<Landing />} />
       </Routes>

@@ -13,7 +13,7 @@ const TicketReports = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const currentDate = new Date();
     const [dates, setDate] = useState({
-        dateStart: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
+        dateStart: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate() -7).padStart(2, '0')}`,
         dateEnd: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
     })
     const [area, setArea] = useState<string>("")
@@ -60,7 +60,7 @@ const TicketReports = () => {
 
     const resetSearch = () => {
             setDate({
-                dateStart: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
+                dateStart: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate() - 7).padStart(2, '0')}`,
                 dateEnd: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
             })
             setArea("")

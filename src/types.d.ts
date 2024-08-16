@@ -63,3 +63,12 @@ export interface ticket {
     image: string
     closed: boolean
 }
+
+export interface statistics {
+    ticketsPerArea: Record<string, number>;
+    averageResponseTime: number;
+    todayTickets: number;
+    totalTickets: number;
+    ticketsByUser: Record<string, number>
+    ticketsByType: Record<string, number>
+}
