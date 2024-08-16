@@ -86,6 +86,12 @@ const App = () => {
           });
         }
       };
+    } else {
+      if (stompClient) {
+        stompClient.disconnect(() => {
+          console.log('Disconnected from WebSocket server');
+        });
+      }
     }
   }, [user]);
 
