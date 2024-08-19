@@ -112,9 +112,10 @@ const CreateTicket: React.FC<CreateTicketProps> = ({ updateList }) => {
                         >
                             <option>Seleccionar...</option>
                             <option value="Accesos">Accesos (Usuarios, contraseñas, cuentas)</option>
-                            <option value="Hardware">Hardware (Monitor, teclado, mouse, impresora)</option>
                             <option value="Conectividad">Conectividad (Internet, red, carpetas compartidas)</option>
+                            <option value="Hardware">Hardware (Monitor, teclado, mouse, impresora)</option>
                             <option value="Software">Software (Errores, instalación)</option>
+                            <option value="Pedidos">Pedidos (Instalaciones, conexiones, modificaciones)</option>
                         </Form.Select>
                         <Form.Control.Feedback type="invalid">{formik.errors.type}</Form.Control.Feedback>
                     </Form.Group>
