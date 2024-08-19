@@ -7,7 +7,6 @@ import handleError from "../../utils/HandleErrors";
 import { areas } from "../../utils/areas";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import logo from "../../assets/logook.webp"
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 const MonthlyReport = () => {

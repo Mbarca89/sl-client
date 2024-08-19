@@ -45,8 +45,6 @@ const MonthlyStatistics = () => {
             const formattedEndDate = endDate.toISOString();
             const res = await axiosWithToken.get<statistics>(`${SERVER_URL}/api/statistics/getStatistics?startDate=${formattedStartDate}&endDate=${formattedEndDate}&area=&closed=`)
             if (res.data) {
-                console.log(res.data);
-
                 const mappedData = data.map(area => ({
                     name: area.name,
                     Tickets: res.data.ticketsPerArea[area.name] || 0 // Actualiza `pv` solo si existe en la respuesta del servidor
@@ -129,17 +127,17 @@ const MonthlyStatistics = () => {
                 </Form>
             </div>
             <hr />
-            <div className='w-100' style={{ height: "500px" }}>
-                <h3>Tickets por área</h3>
+            <div className='w-100 text-dark' style={{ height: "500px" }}>
+                <h3 className='text-light'>Tickets por área</h3>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
-                        width={500}
+                        width={700}
                         height={500}
                         data={data}
                         margin={{
                             top: 5,
-                            right: 30,
-                            left: 20,
+                            right: 0,
+                            left: 0,
                             bottom: 30,
                         }}
                     >
