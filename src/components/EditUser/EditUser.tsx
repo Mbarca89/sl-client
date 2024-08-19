@@ -39,13 +39,7 @@ const EditUser: React.FC<EditUserProps> = ({ user, onUpdateUser }) => {
             errors.userName = 'Ingrese el nombre de usuario';
         }
 
-        if (!values.password.trim()) {
-            errors.password = 'Ingrese la contraseña';
-        }
-
-        if (!values.repeatPassword.trim()) {
-            errors.repeatPassword = 'Ingrese nuevamente la contraseña';
-        } else if (values.repeatPassword !== values.password) {
+        if (values.repeatPassword !== values.password) {
             errors.repeatPassword = "Las contraseñas no coinciden";
         }
         if (!values.role) {
