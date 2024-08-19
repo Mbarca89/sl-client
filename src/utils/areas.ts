@@ -4,11 +4,15 @@ export const areas = [
     "Control central",
     "Diseño",
     "Estudio",
+    "Iluminación",
     "Noticiero",
     "Programación",
     "Publicidad",
     "Redes",
     "Sistemas",
+    "Sonido",
     "Stream",
+    "Técnica",
+    "Otros"
 ]
 
