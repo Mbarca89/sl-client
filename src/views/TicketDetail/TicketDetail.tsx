@@ -9,6 +9,7 @@ import { useRecoilState } from "recoil";
 import { modalState, userState } from "../../app/store";
 import CustomModal from "../../components/Modal/CustomModal";
 import CloseTicket from "../../components/CloseTicket/CloseTicket";
+import { notifySuccess } from "../../components/Toaster/Toaster";
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 const TicketDetail = () => {
@@ -87,7 +88,7 @@ const TicketDetail = () => {
             try {
                 const res = await axiosWithToken.put(`${SERVER_URL}/api/tickets/edit?solution=${formik.values.solution}&ticketId=${ticketId}`, )
                 if (res.data) {
-                    setTicket(res.data)
+                    notifySuccess(res.data)
                 }
             } catch (error) {
                 handleError(error)
