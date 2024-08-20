@@ -17,8 +17,8 @@ const TicketDetail = () => {
     const [show, setShow] = useRecoilState(modalState)
     const [user, setUser] = useRecoilState(userState)
     const [loading, setLoading] = useState<boolean>(false)
+    const [edit, setEdit] = useState<boolean>(false)
     const [modal, setModal] = useState<string>("clsoe")
-    const [image, setImage] = useState<string>("")
     const [ticket, setTicket] = useState<ticket>({
         id: "",
         userId: "",
@@ -82,6 +82,20 @@ const TicketDetail = () => {
         setShow(true)
     }
 
+    const handleEdit = async () => {
+        if(edit) {
+            try {
+                const res = await axiosWithToken.put(`${SERVER_URL}/api/tickets/edit?solution=${formik.values.solution}&ticketId=${ticketId}`, )
+                if (res.data) {
+                    setTicket(res.data)
+                }
+            } catch (error) {
+                handleError(error)
+            } 
+        }
+        setEdit(!edit)
+    }
+
     useEffect(() => {
         getTicket()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,7 +147,7 @@ const TicketDetail = () => {
                     {ticket.image && <Row className="mb-2">
                         <div className="d-flex flex-column justify-content-center align-items-center">
                             <Form.Label>Imagen adjunta:</Form.Label>
-                            <img role= "button" onClick={handleImage} className="w-50 mb-1" src={ticket.image ? `data:image/jpeg;base64,${ticket.image}` : "null"} alt="" />
+                            <img role="button" onClick={handleImage} className="w-50 mb-1" src={ticket.image ? `data:image/jpeg;base64,${ticket.image}` : "null"} alt="" />
                         </div>
                     </Row>}
                     {ticket.closed && <Row>
@@ -148,7 +162,7 @@ const TicketDetail = () => {
                                 value={formik.values.solution}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                disabled
+                                disabled={!edit}
                             />
                         </Form.Group>
                     </Row>}
@@ -163,6 +177,12 @@ const TicketDetail = () => {
                                 <div className='d-flex align-items-center justify-content-center w-25'>
                                     <Button className="" variant="primary" onClick={handleCloseTicket}>
                                         Cerrar ticket
+                                    </Button>
+                                </div>}
+                            {`${user.name} ${user.surname}` === ticket.solvedBy &&
+                                <div className='d-flex align-items-center justify-content-center w-25'>
+                                    <Button className="" variant="primary" onClick={handleEdit}>
+                                        {!edit ? "Editar" : "Guardar"}
                                     </Button>
                                 </div>}
                         </Form.Group>

@@ -8,7 +8,7 @@ import { userState } from "../../app/store";
 import { useNavigate } from "react-router-dom";
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
-const TicketList = () => {
+const ClosedByMeTickets = () => {
 
     const navigate = useNavigate()
     const [tickets, setTickets] = useState<ticket[]>([])
@@ -16,7 +16,7 @@ const TicketList = () => {
     const [user, setUser] = useRecoilState(userState)
     const currentDate = new Date();
     const [dates, setDate] = useState({
-        dateStart: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate() -7).padStart(2, '0')}`,
+        dateStart: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate() - 7).padStart(2, '0')}`,
         dateEnd: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
     })
 
@@ -27,7 +27,7 @@ const TicketList = () => {
             const endDate = new Date(dates.dateEnd);
             const formattedStartDate = startDate.toISOString();
             const formattedEndDate = endDate.toISOString();    
-            const res = await axiosWithToken.get<ticket[]>(`${SERVER_URL}/api/tickets/getUserTickets?startDate=${formattedStartDate}&endDate=${formattedEndDate}&userId=${user.id}`)
+            const res = await axiosWithToken.get<ticket[]>(`${SERVER_URL}/api/tickets/getClosedByMeTickets?startDate=${formattedStartDate}&endDate=${formattedEndDate}&solvedBy=${user.name} ${user.surname}`)
             if (res.data) {
                 setTickets(res.data)
             }
@@ -117,4 +117,4 @@ const TicketList = () => {
     )
 }
 
-export default TicketList
+export default ClosedByMeTickets
