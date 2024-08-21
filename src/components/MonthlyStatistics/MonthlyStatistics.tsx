@@ -15,20 +15,20 @@ interface graphData {
 
 const MonthlyStatistics = () => {
 
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false);
     const currentDate = new Date();
     const [dates, setDate] = useState({
         year: `${currentDate.getFullYear()}`,
         month: `${String(currentDate.getMonth() + 1).padStart(2, '0')}`,
-    })
+    });
     const [statistics, setStatistics] = useState<statistics>({
-        ticketsPerArea: {},
+        ticketsPerArea: [],
         averageResponseTime: 0,
         todayTickets: 0,
         totalTickets: 0,
-        ticketsByUser: {},
-        ticketsByType: {}
-    })
+        ticketsByUser: [],  // Cambiado de {} a []
+        ticketsByType: []   // Cambiado de {} a []
+    });
     const [data, setData] = useState<graphData[]>(areas.map(area => (
         {
             name: area,
@@ -37,43 +37,57 @@ const MonthlyStatistics = () => {
     )));
 
     const getTickets = async () => {
-        setLoading(true)
+        setLoading(true);
         try {
-            const startDate = new Date(Number(dates.year), Number(dates.month) - 1, 1)
-            const endDate = new Date(Number(dates.year), Number(dates.month), 0)
+            const startDate = new Date(Number(dates.year), Number(dates.month) - 1, 1);
+            const endDate = new Date(Number(dates.year), Number(dates.month), 0);
             const formattedStartDate = startDate.toISOString();
             const formattedEndDate = endDate.toISOString();
-            const res = await axiosWithToken.get<statistics>(`${SERVER_URL}/api/statistics/getStatistics?startDate=${formattedStartDate}&endDate=${formattedEndDate}&area=&closed=`)
+            const res = await axiosWithToken.get<statistics>(`${SERVER_URL}/api/statistics/getStatistics?startDate=${formattedStartDate}&endDate=${formattedEndDate}&area=&closed=`);
             if (res.data) {
-                const mappedData = data.map(area => ({
-                    name: area.name,
-                    Tickets: res.data.ticketsPerArea[area.name] || 0 // Actualiza `pv` solo si existe en la respuesta del servidor
+                // Crear el arreglo `ticketsPerArea` combinando las áreas predefinidas y los resultados del servidor
+                const filledTicketsPerArea = areas.map(area => {
+                    const serverData = res.data.ticketsPerArea.find(item => item.name === area);
+                    return {
+                        name: area,
+                        count: serverData ? serverData.count : 0
+                    };
+                });
+    
+                // Mapear los datos para el gráfico
+                const mappedData = filledTicketsPerArea.map(item => ({
+                    name: item.name,
+                    Tickets: item.count
                 }));
-                setData(mappedData)
-                setStatistics(res.data)
+    
+                setData(mappedData);
+                setStatistics({
+                    ...res.data,
+                    ticketsPerArea: filledTicketsPerArea
+                });
             }
         } catch (error) {
-            handleError(error)
+            handleError(error);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     const handleDates = (event: any) => {
         setDate({
             ...dates,
             [event.target.name]: event.target.value
-        })
-    }
+        });
+    };
 
     const handleSubmit = (event: any) => {
-        event.preventDefault()
-        getTickets()
-    }
+        event.preventDefault();
+        getTickets();
+    };
 
     useEffect(() => {
-        getTickets()
-    }, [])
+        getTickets();
+    }, []);
 
     return (
         <div className='container flex-grow-1 p-lg-3 p-sm-0 rounded bg-dark-800 m-2 text-light'>
@@ -96,7 +110,7 @@ const MonthlyStatistics = () => {
                         </Col>
                         <Col xs={10} lg={4}>
                             <Form.Group className="mb-3" as={Row} xs={12}>
-                                <Form.Label column >Mes</Form.Label>
+                                <Form.Label column>Mes</Form.Label>
                                 <Col>
                                     <Form.Select
                                         id="month"
@@ -129,10 +143,10 @@ const MonthlyStatistics = () => {
             <hr />
             <div className='w-100 text-dark' style={{ height: "500px" }}>
                 <h3 className='text-light'>Tickets por área</h3>
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer>
                     <BarChart
                         width={700}
-                        height={500}
+                        height={1000}
                         data={data}
                         margin={{
                             top: 5,
@@ -141,12 +155,11 @@ const MonthlyStatistics = () => {
                             bottom: 30,
                         }}
                     >
-                        <XAxis dataKey="name" />
+                        <XAxis dataKey="name" scale="auto" angle={-45} height={100} tickMargin={35} />
                         <YAxis />
                         <Tooltip />
                         <Legend />
                         <Bar dataKey="Tickets" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-
                     </BarChart>
                 </ResponsiveContainer>
             </div>
@@ -157,10 +170,10 @@ const MonthlyStatistics = () => {
                 <p><b>Tickets de hoy {new Date().toLocaleDateString()}</b></p>
                 <p>{statistics.todayTickets}</p>
                 <p><b>Tiempo promedio de respuesta (En minutos)</b></p>
-                <p>{statistics.averageResponseTime.toFixed(2)}</p>
+                <p>{statistics.averageResponseTime?.toFixed(2)}</p>
             </div>
         </div>
     )
 }
 
-export default MonthlyStatistics
+export default MonthlyStatistics;

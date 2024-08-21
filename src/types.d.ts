@@ -65,10 +65,10 @@ export interface ticket {
 }
 
 export interface statistics {
-    ticketsPerArea: Record<string, number>;
+    ticketsPerArea: { name: string; count: number }[];
     averageResponseTime: number;
     todayTickets: number;
     totalTickets: number;
-    ticketsByUser: Record<string, number>
-    ticketsByType: Record<string, number>
+    ticketsByUser: { name: string; count: number }[];
+    ticketsByType: { name: string; count: number }[];
 }

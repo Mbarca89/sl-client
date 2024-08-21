@@ -19,12 +19,12 @@ const MonthlyReport = () => {
         month: `${String(currentDate.getMonth() + 1).padStart(2, '0')}`,
     })
     const [statistics, setStatistics] = useState<statistics>({
-        ticketsPerArea: {},
+        ticketsPerArea: [],
         averageResponseTime: 0,
         todayTickets: 0,
         totalTickets: 0,
-        ticketsByUser: {},
-        ticketsByType: {}
+        ticketsByUser: [],
+        ticketsByType: []
     })
 
     const generateAndDownloadPdf = async () => {
@@ -86,12 +86,16 @@ const MonthlyReport = () => {
             const formattedEndDate = endDate.toISOString();
             const res = await axiosWithToken.get<statistics>(`${SERVER_URL}/api/statistics/getStatistics?startDate=${formattedStartDate}&endDate=${formattedEndDate}&area=&closed=`)
             if (res.data) {
-                const filledTicketsPerArea = { ...res.data.ticketsPerArea };
-                areas.forEach(area => {
-                    if (!(area in filledTicketsPerArea)) {
-                        filledTicketsPerArea[area] = 0;
-                    }
+                console.log(res.data);
+                
+                const filledTicketsPerArea = areas.map(area => {
+                    const serverData = res.data.ticketsPerArea.find(item => item.name === area);
+                    return {
+                        name: area,
+                        count: serverData ? serverData.count : 0
+                    };
                 });
+    
                 setStatistics({
                     ...res.data,
                     ticketsPerArea: filledTicketsPerArea
@@ -118,7 +122,7 @@ const MonthlyReport = () => {
 
     useEffect(() => {
         getTickets()
-    }, [])
+    }, [])    
 
     return (
         !loading ? <div className='container flex-grow-1 p-lg-3 p-sm-0 rounded bg-dark-800 m-2 text-light'>
@@ -180,31 +184,28 @@ const MonthlyReport = () => {
                 <hr />
                 <h6>Tickets por area:</h6>
                 <div className="text-start">
-                    <p>{Object.entries(statistics.ticketsPerArea).map(([area, count]) => (
-                        <li key={area}>{area}: {count}</li>
+                    <p>{statistics.ticketsPerArea.map((ticket, index) => (
+                        <li key={index}>{ticket.name} : {ticket.count}</li>
                     ))}</p>
-
                 </div>
                 <hr />
                 <h6>Tickets del período:</h6>
                 <p>{statistics.totalTickets}</p>
                 <h6>Tiempo de respuesta promedio (En minutos):</h6>
-                <p>{statistics.averageResponseTime.toFixed(2)}</p>
+                <p>{statistics.averageResponseTime?.toFixed(2)}</p>
                 <hr />
                 <h6>Problemas mas frecuentes:</h6>
                 <div className="text-start">
-                    <p>{Object.entries(statistics.ticketsByType).map(([type, count]) => (
-                        <li key={type}>{type}: {count}</li>
+                    <p>{statistics.ticketsByType.map((ticket, index) => (
+                        <li key={index}>{ticket.name}: {ticket.count}</li>
                     ))}</p>
-
                 </div>
                 <hr />
-                <h6>Usuarios con mas tickets creados:</h6>
+                <h6>Usuarios con más tickets creados:</h6>
                 <div className="text-start">
-                    <p>{Object.entries(statistics.ticketsByUser).map(([user, count]) => (
-                        <li key={user}>{user}: {count}</li>
+                    <p>{statistics.ticketsByUser.map((ticket, index) => (
+                        <li key={index}>{ticket.name}: {ticket.count}</li>
                     ))}</p>
-
                 </div>
             </div>
             <Button className="w-50 mt-5" onClick={generateAndDownloadPdf}>{!loading ? "Descargar" : <Spinner />}</Button>
