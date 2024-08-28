@@ -13,6 +13,7 @@ export const areas = [
     "Sonido",
     "Stream",
     "Técnica",
+    "Gerencia",
     "Otros"
 ]
 
