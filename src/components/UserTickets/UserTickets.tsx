@@ -15,8 +15,11 @@ const TicketList = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [user, setUser] = useRecoilState(userState)
     const currentDate = new Date();
+    const dateStart = new Date()
+    dateStart.setDate(currentDate.getDate() - 7)
+
     const [dates, setDate] = useState({
-        dateStart: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate() -7).padStart(2, '0')}`,
+        dateStart: `${dateStart.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate() -7).padStart(2, '0')}`,
         dateEnd: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
     })
 
