@@ -17,9 +17,8 @@ const TicketList = () => {
     const currentDate = new Date();
     const dateStart = new Date()
     dateStart.setDate(currentDate.getDate() - 7)
-
     const [dates, setDate] = useState({
-        dateStart: `${dateStart.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate() -7).padStart(2, '0')}`,
+        dateStart: `${dateStart.getFullYear()}-${String(dateStart.getMonth() + 1).padStart(2, '0')}-${String(dateStart.getDate()).padStart(2, '0')}`,
         dateEnd: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
     })
 
@@ -29,7 +28,7 @@ const TicketList = () => {
             const startDate = new Date(dates.dateStart);
             const endDate = new Date(dates.dateEnd);
             const formattedStartDate = startDate.toISOString();
-            const formattedEndDate = endDate.toISOString();    
+            const formattedEndDate = endDate.toISOString();
             const res = await axiosWithToken.get<ticket[]>(`${SERVER_URL}/api/tickets/getUserTickets?startDate=${formattedStartDate}&endDate=${formattedEndDate}&userId=${user.id}`)
             if (res.data) {
                 setTickets(res.data)
