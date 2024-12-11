@@ -26,6 +26,8 @@ const CreateTicket: React.FC<CreateTicketProps> = ({ updateList }) => {
 
         if (!values.title.trim()) {
             errors.title = 'Ingrese el título';
+        } else if (!/^.{0,49}$/.test(values.title)) {
+            errors.title = "El título es demasiado largo"
         }
         if (!values.type.trim()) {
             errors.type = 'Seleccione un tipo';

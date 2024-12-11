@@ -34,6 +34,7 @@ const CloseTicket: React.FC<CloseTicketProps> = ({ updateTicket, ticketId }) => 
             solution: "",
             solvedBy: "",
             closed: false,
+            important: false
         },
         validate,
         onSubmit: async values => {
@@ -42,9 +43,10 @@ const CloseTicket: React.FC<CloseTicketProps> = ({ updateTicket, ticketId }) => 
                 id: ticketId,
                 solution: values.solution,
                 solvedBy: user.name + " " + user.surname,
-                closed: true
+                closed: true,
+                important: values.important
             }
-            
+
             try {
                 const res = await axiosWithToken.put(`${SERVER_URL}/api/tickets/close`, closeTicket)
                 notifySuccess(res.data)
@@ -81,6 +83,28 @@ const CloseTicket: React.FC<CloseTicketProps> = ({ updateTicket, ticketId }) => 
                         />
                         <Form.Control.Feedback type="invalid">{formik.errors.solution}</Form.Control.Feedback>
 
+                    </Form.Group>
+                </Row>
+                <Row className="mt-3">
+                    <Form.Group as={Row} className="d-flex align-items-center justify-content-center">
+                        <Col lg={1}>
+                            <Form.Check
+                                type="switch"
+                                id="important"
+                                value={formik.values.important ? "true" : "false"}
+                                onChange={e => {
+                                    formik.setFieldValue("important", e.target.checked === true)
+                                    if (e.target.checked === false) {
+                                        formik.setFieldValue("important", formik.initialValues.important)
+                                    }
+
+                                }}
+                                onBlur={formik.handleBlur}
+                            />
+                        </Col>
+                        <Form.Label column>
+                            Marcar como importante
+                        </Form.Label>
                     </Form.Group>
                 </Row>
                 <Row>

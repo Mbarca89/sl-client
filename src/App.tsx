@@ -11,6 +11,7 @@ import TicketReports from "./views/TicketReports/TicketReports"
 import TicketDetail from "./views/TicketDetail/TicketDetail"
 import UserDetail from "./views/UserDetail/UserDetail"
 import SockJS from 'sockjs-client';
+import Home from "./views/Home/Home"
 import type { Client } from 'stompjs';
 import Stomp from 'stompjs';
 import { notifyTicket } from "./components/Toaster/Toaster"
@@ -116,7 +117,7 @@ const App = () => {
             </Suspense>
           </>
         )}>
-          <Route path="/home" element={isLogged ? user.role === "Administrador" ? <TicketReports /> : <Tickets /> : <Navigate to="/" />} />
+          <Route path="/home" element={isLogged ? user.role === "Administrador" ? <Home /> : <Tickets /> : <Navigate to="/" />} />
           <Route path="/tickets" element={isLogged ? <Tickets /> : <Navigate to="/" />} />
           <Route path="/ticket/:ticketId" element={isLogged ? <TicketDetail /> : <Navigate to="/" />} />
           <Route path="/user" element={isLogged ? <UserDetail /> : <Navigate to="/" />} />

@@ -46,6 +46,7 @@ export interface closeTicketFormValues {
     solution: string
     solvedBy: string
     closed: boolean
+    important: boolean
 }
 
 export interface ticket {
