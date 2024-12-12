@@ -33,7 +33,7 @@ const CreatePending:React.FC<CreatePendingProps> = ({updateList}) => {
         onSubmit: async values => {
             setLoading(true)
             try {
-                const res = await axiosWithToken.post(`${SERVER_URL}/api/pending/create`, values.notes)
+                const res = await axiosWithToken.post(`${SERVER_URL}/api/pending/create`, {notes: values.notes})
                 notifySuccess(res.data)
                 updateList()
             } catch (error: any) {

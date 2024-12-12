@@ -64,7 +64,7 @@ const Pending = () => {
                                 <p>Fecha y hora: {new Date(pending.pendingDate).toLocaleString()}</p>
                             </div>
                             <hr />
-                            {pending.notes.replaceAll("+", " ")}
+                            {pending.notes}
                             <hr />
                         </div>
                     ))}
