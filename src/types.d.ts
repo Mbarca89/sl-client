@@ -73,3 +73,10 @@ export interface statistics {
     ticketsByUser: { name: string; count: number }[];
     ticketsByType: { name: string; count: number }[];
 }
+
+export interface pending {
+    id: string
+    pendingDate: date
+    notes: string
+    done: boolean
+}

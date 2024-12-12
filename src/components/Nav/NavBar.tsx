@@ -47,7 +47,6 @@ const NavBar = () => {
                             <Nav.Link onClick={() => { navigate("/home"); handleNavLinkClick() }}>Inicio</Nav.Link>
                             {user.role === "Administrador" && <NavDropdown title="Administrar" id="basic-nav-dropdown">
                                 <NavDropdown.Item onClick={() => { navigate("/users"); handleNavLinkClick() }}>Usuarios</NavDropdown.Item>
-                                <NavDropdown.Item onClick={() => { navigate("/ticketReports"); handleNavLinkClick() }}>Tickets</NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => { navigate("/Statistics"); handleNavLinkClick() }}>Estadísticas</NavDropdown.Item>
                             </NavDropdown>}
                             {user.role === "Administrador" && <Nav.Link onClick={() => { navigate("/tickets"); handleNavLinkClick() }}>Tickets</Nav.Link>}
