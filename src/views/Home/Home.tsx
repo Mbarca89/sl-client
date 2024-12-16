@@ -25,15 +25,11 @@ const Home = () => {
             <Nav.Item>
                 <Nav.Link eventKey="important" onClick={() => setCurrentTab("important")}>Soluciones importantes</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
-                <Nav.Link eventKey="guides" onClick={() => setCurrentTab("guides")}>Guias</Nav.Link>
-            </Nav.Item>
         </Nav>
         <div className="mt-3">
             {currentTab === "tickets" ? <TicketReports /> : null}
             {currentTab === "important" ? <ImportantTickets /> : null}
             {currentTab === "pending" ? <Pending /> : null}
-            {/* {currentTab === "newTicket" ? <CreateTicket updateList={setTab} /> : null} */}
         </div>
     </div>
     )

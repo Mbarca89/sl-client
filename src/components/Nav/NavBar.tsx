@@ -50,6 +50,7 @@ const NavBar = () => {
                                 <NavDropdown.Item onClick={() => { navigate("/Statistics"); handleNavLinkClick() }}>Estadísticas</NavDropdown.Item>
                             </NavDropdown>}
                             {user.role === "Administrador" && <Nav.Link onClick={() => { navigate("/tickets"); handleNavLinkClick() }}>Tickets</Nav.Link>}
+                            <Nav.Link onClick={() => { navigate("/guides"); handleNavLinkClick() }}>Guias</Nav.Link>
                         </Nav>
                         <hr />
                         <Navbar.Text>

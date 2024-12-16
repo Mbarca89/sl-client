@@ -9,6 +9,8 @@ import Users from "./views/Users/Users"
 import Tickets from "./views/Tickets/Tickets"
 import TicketReports from "./views/TicketReports/TicketReports"
 import TicketDetail from "./views/TicketDetail/TicketDetail"
+import Guides from "./views/Guides/Guides"
+import GuideDetail from "./views/GuideDetail/GuideDetail"
 import UserDetail from "./views/UserDetail/UserDetail"
 import SockJS from 'sockjs-client';
 import Home from "./views/Home/Home"
@@ -18,6 +20,7 @@ import { notifyTicket } from "./components/Toaster/Toaster"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Statistics from "./views/Statistics/Statistics"
+import { Buffer } from "buffer"
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 const App = () => {
@@ -26,6 +29,10 @@ const App = () => {
   const [user, setUser] = useRecoilState(userState)
 
   const [initialCheckDone, setInitialCheckDone] = useState(false)
+
+  if (!window.Buffer) {
+    window.Buffer = Buffer;
+}
 
   useEffect(() => {
     if (!initialCheckDone) {
@@ -120,6 +127,8 @@ const App = () => {
           <Route path="/home" element={isLogged ? user.role === "Administrador" ? <Home /> : <Tickets /> : <Navigate to="/" />} />
           <Route path="/tickets" element={isLogged ? <Tickets /> : <Navigate to="/" />} />
           <Route path="/ticket/:ticketId" element={isLogged ? <TicketDetail /> : <Navigate to="/" />} />
+          <Route path="/guide/:guideId" element={isLogged ? <GuideDetail /> : <Navigate to="/" />} />
+          <Route path="/guides" element={isLogged ? <Guides /> : <Navigate to="/" />} />
           <Route path="/user" element={isLogged ? <UserDetail /> : <Navigate to="/" />} />
           <Route path="/users" element={isLogged && user.role === "Administrador" ? <Users /> : <Navigate to="/" />} />
           <Route path="/ticketReports" element={isLogged && user.role === "Administrador" ? <TicketReports /> : <Navigate to="/" />} />

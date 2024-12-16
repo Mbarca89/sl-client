@@ -80,3 +80,10 @@ export interface pending {
     notes: string
     done: boolean
 }
+
+export interface guide {
+    id: string
+    title: string
+    guideText: string
+    adminOnly: boolean
+}
