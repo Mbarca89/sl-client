@@ -84,15 +84,30 @@ const TicketDetail = () => {
     }
 
     const handleEdit = async () => {
-        if(edit) {
+        if (edit) {
+            const editTicket = {
+                id: formik.values.id,
+                userId: formik.values.userId,
+                userName: formik.values.userName,
+                area: formik.values.area,
+                title: formik.values.title,
+                type: formik.values.type,
+                description: formik.values.description,
+                solution: formik.values.solution,
+                solvedBy: formik.values.solvedBy,
+                solvedDate: new Date(),
+                closed: formik.values.closed
+            }
+            const formData = new FormData();
+            formData.append('ticket', JSON.stringify(editTicket));
             try {
-                const res = await axiosWithToken.put(`${SERVER_URL}/api/tickets/edit?solution=${formik.values.solution}&ticketId=${ticketId}`, )
+                const res = await axiosWithToken.put(`${SERVER_URL}/api/tickets/edit`, formData)
                 if (res.data) {
                     notifySuccess(res.data)
                 }
             } catch (error) {
                 handleError(error)
-            } 
+            }
         }
         setEdit(!edit)
     }
