@@ -5,6 +5,8 @@ import { axiosWithToken } from "../../utils/axiosInstances"
 import handleError from "../../utils/HandleErrors";
 import { areas } from "../../utils/areas";
 import { useNavigate } from "react-router-dom";
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 const TicketReports = () => {
@@ -23,12 +25,12 @@ const TicketReports = () => {
     const navigate = useNavigate()
 
     const getTickets = async () => {
-        setLoading(true)  
+        setLoading(true)
         try {
             const startDate = new Date(dates.dateStart);
             const endDate = new Date(dates.dateEnd);
             const formattedStartDate = startDate.toISOString();
-            const formattedEndDate = endDate.toISOString();                                  
+            const formattedEndDate = endDate.toISOString();
             const res = await axiosWithToken.get<ticket[]>(`${SERVER_URL}/api/tickets/getFilteredTickets?startDate=${formattedStartDate}&endDate=${formattedEndDate}&area=${area}&closed=${closed}`)
             if (res.data) {
                 setTickets(res.data)
@@ -61,11 +63,86 @@ const TicketReports = () => {
     }
 
     const resetSearch = () => {
-            setDate({
-                dateStart: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate() - 7).padStart(2, '0')}`,
-                dateEnd: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
-            })
-            setArea("")
+        setDate({
+            dateStart: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate() - 7).padStart(2, '0')}`,
+            dateEnd: `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
+        })
+        setArea("")
+    }
+
+    const downloadData = async () => {
+        setLoading(true)
+        try {
+            const startDate = new Date(dates.dateStart);
+            const endDate = new Date(dates.dateEnd);
+            const formattedStartDate = startDate.toISOString();
+            const formattedEndDate = endDate.toISOString();
+            const res = await axiosWithToken.get<ticket[]>(`${SERVER_URL}/api/tickets/downloadTickets?startDate=${formattedStartDate}&endDate=${formattedEndDate}&area=${area}&closed=${closed}`)
+            if (res.data) {
+                console.log(res.data)
+                const formattedData = res.data.map((item) => ({
+                    ID: item.id,
+                    Fecha: item.date,
+                    "Creado por": item.userName,
+                    Titulo: item.title,
+                    Descripcion: item.description,
+                    Cerrado: item.closed ? "SI" : "NO",
+                    "Fecha de cierre": item.solvedDate,
+                    "Cerrado por": item.solvedBy,
+                    Solucion: item.solution
+                }))
+                console.log(formattedData)
+                const workbook = new ExcelJS.Workbook();
+                const worksheet = workbook.addWorksheet('Tickets');
+
+                // Definir columnas con encabezados personalizados y ancho
+                worksheet.columns = [
+                    { header: 'ID', key: 'ID', width: 10 },
+                    { header: 'Fecha', key: 'Fecha', width: 20 },
+                    { header: 'Creado por', key: 'Creado por', width: 30 },
+                    { header: 'Titulo', key: 'Titulo', width: 30 },
+                    { header: 'Descripcion', key: 'Descripcion', width: 40 },
+                    { header: 'Cerrado', key: 'Cerrado', width: 10 },
+                    { header: 'Fecha de cierre', key: 'Fecha de cierre', width: 20 },
+                    { header: 'Cerrado por', key: 'Cerrado por', width: 30 },
+                    { header: 'Solucion', key: 'Solucion', width: 80 },
+                ];
+
+                // Agregar datos
+                formattedData.forEach(item => {
+                    worksheet.addRow(item);
+                });
+
+                // Estilo al encabezado
+                worksheet.getRow(1).eachCell(cell => {
+                    cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+                    cell.fill = {
+                        type: 'pattern',
+                        pattern: 'solid',
+                        fgColor: { argb: 'FF1F4E78' }, // azul oscuro
+                    };
+                    cell.alignment = { vertical: 'middle', horizontal: 'center' };
+                    cell.border = {
+                        top: { style: 'thin' },
+                        bottom: { style: 'thin' },
+                        left: { style: 'thin' },
+                        right: { style: 'thin' },
+                    };
+                });
+
+                // Exportar el archivo
+                const buffer = await workbook.xlsx.writeBuffer();
+                const blob = new Blob([buffer], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                });
+                saveAs(blob, 'Tickets.xlsx');
+            }
+        } catch (error) {
+            handleError(error)
+        } finally {
+            setLoading(false)
+        }
+
     }
 
     useEffect(() => {
@@ -102,7 +179,7 @@ const TicketReports = () => {
                             value={String(dates.dateEnd)}
                         />
                     </Col>
-                    <Col  xs={12} md={2}>
+                    <Col xs={12} md={2}>
                         <Form.Group>
                             <Col>
                                 <Form.Select
@@ -126,7 +203,7 @@ const TicketReports = () => {
                                 >
                                     <option value="">Todos</option>
                                     <option value="false">Pendinte</option>
-                                    <option value="true">Cerrado</option>      
+                                    <option value="true">Cerrado</option>
                                 </Form.Select>
                             </Col>
                         </Form.Group>
@@ -159,6 +236,7 @@ const TicketReports = () => {
                     </tr>)}
                 </tbody>
             </Table>
+            <Button onClick={downloadData}>Descargar</Button>
         </div>
     )
 }

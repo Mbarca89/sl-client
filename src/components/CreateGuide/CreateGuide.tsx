@@ -145,20 +145,10 @@ const CreateGuide: React.FC<CreateGuideProps> = ({ updateList }) => {
                                     [{ list: "ordered" }, { list: "bullet" }],
                                     [{ direction: "rtl" }],
                                     [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                                    ["image"], // Botón de imagen personalizado
+                                    ["image"], 
                                 ]
                             },
                         }}
-                        formats={[
-                            "header",
-                            "bold",
-                            "italic",
-                            "underline",
-                            "list",
-                            "bullet",
-                            "link",
-                            "image",
-                        ]}
                         value={formik.values.guideText}
                         onChange={value => formik.setFieldValue("guideText", value)}
                     />
