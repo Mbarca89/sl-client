@@ -42,6 +42,12 @@ export interface createTicketFormValues {
     image: string
 }
 
+export interface createWorkFormValues {
+    title: string
+    description: string
+    image: string
+}
+
 export interface closeTicketFormValues {
     solution: string
     solvedBy: string
@@ -63,6 +69,16 @@ export interface ticket {
     solvedDate: string
     image: string
     closed: boolean
+}
+
+export interface work {
+    id: string
+    userId: string
+    userName: string
+    date: string
+    title: string
+    description: string
+    image: string
 }
 
 export interface statistics {

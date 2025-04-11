@@ -21,6 +21,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Statistics from "./views/Statistics/Statistics"
 import { Buffer } from "buffer"
+import WorkDetail from "./views/WorkDetail/WorkDetail"
 const SERVER_URL = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
 const App = () => {
@@ -124,9 +125,10 @@ const App = () => {
             </Suspense>
           </>
         )}>
-          <Route path="/home" element={isLogged ? user.role === "Administrador" ? <Home /> : <Tickets /> : <Navigate to="/" />} />
+          <Route path="/home/:tab" element={isLogged ? user.role === "Administrador" ? <Home /> : <Tickets /> : <Navigate to="/" />} />
           <Route path="/tickets" element={isLogged ? <Tickets /> : <Navigate to="/" />} />
           <Route path="/ticket/:ticketId" element={isLogged ? <TicketDetail /> : <Navigate to="/" />} />
+          <Route path="/works/:workId" element={isLogged ? <WorkDetail /> : <Navigate to="/" />} />
           <Route path="/guide/:guideId" element={isLogged ? <GuideDetail /> : <Navigate to="/" />} />
           <Route path="/guides" element={isLogged ? <Guides /> : <Navigate to="/" />} />
           <Route path="/user" element={isLogged ? <UserDetail /> : <Navigate to="/" />} />

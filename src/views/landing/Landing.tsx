@@ -77,7 +77,7 @@ const Landing = () => {
                     localStorage.setItem("area", res.data.area)
                 }
                 setLogged(true)
-                navigate("/home")
+                navigate("/home/tickets")
             }
 
         } catch (error: any) {

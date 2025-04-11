@@ -13,6 +13,7 @@ function CustomModal({ children, title, fullscreen }: any) {
   return (
     <>
       <Modal backdrop="static" show={show} onHide={handleClose} size="lg" fullscreen={fullscreen}
+      data-bs-theme="dark"
       aria-labelledby="contained-modal-title-vcenter"
       centered>
         <Modal.Header closeButton>
