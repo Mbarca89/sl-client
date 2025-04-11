@@ -17,7 +17,7 @@ const Landing = () => {
 
     useEffect(() => {
         if (isLogged) {
-            navigate("/home")
+            navigate("/home/tickets")
         }
     }, [isLogged])
 
