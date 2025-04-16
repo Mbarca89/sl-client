@@ -39,7 +39,7 @@ const DeleteUser: React.FC<DeleteUserProps> = ({ user, onUpdateUser }) => {
     }
 
     return (
-        <div className="d-flex flex-column align-items-center">
+        <div className="d-flex flex-column align-items-center text-light">
             <span>¿Esta seguro que quiere eliminar el usuario "{user.userName}?</span>
             <div className="mt-3 d-flex align-items-center justify-content-center gap-4 w-100">
                 {!loading ?

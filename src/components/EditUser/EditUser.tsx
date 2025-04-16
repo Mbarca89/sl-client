@@ -90,7 +90,7 @@ const EditUser: React.FC<EditUserProps> = ({ user, onUpdateUser }) => {
     }
 
     return (
-        <Form onSubmit={formik.handleSubmit} noValidate>
+        <Form onSubmit={formik.handleSubmit} noValidate className='text-light'>
             <Row className="mb-2">
                 <Form.Group as={Col} xs={12} lg={6}>
                     <Form.Label>Nombre</Form.Label>
