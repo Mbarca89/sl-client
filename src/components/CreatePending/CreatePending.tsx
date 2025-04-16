@@ -49,7 +49,7 @@ const CreatePending:React.FC<CreatePendingProps> = ({updateList}) => {
         formik.resetForm();
     }
     return (
-        <Container className="text-dark">
+        <Container className="text-light">
             <Form onSubmit={formik.handleSubmit} noValidate>
                 <Row>
                     <Form.Group className="m-auto" as={Col} xs={12} md={12}>

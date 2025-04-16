@@ -15,7 +15,8 @@ function CustomModal({ children, title, fullscreen }: any) {
       <Modal backdrop="static" show={show} onHide={handleClose} size="lg" fullscreen={fullscreen}
       data-bs-theme="dark"
       aria-labelledby="contained-modal-title-vcenter"
-      centered>
+      centered
+      className='text-light'>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
