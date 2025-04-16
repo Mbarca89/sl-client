@@ -50,7 +50,7 @@ const Landing = () => {
     const loginHandler = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const loginUser = {
-            userName: userData.userName,
+            userName: userData.userName.toLowerCase(),
             password: encryptPassword(userData.password),
             remember: userData.remember
         }

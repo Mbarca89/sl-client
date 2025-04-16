@@ -125,7 +125,7 @@ const App = () => {
             </Suspense>
           </>
         )}>
-          <Route path="/home/:tab" element={isLogged ? user.role === "Administrador" ? <Home /> : <Tickets /> : <Navigate to="/" />} />
+          <Route path="/home/:tab" element={isLogged ? user.role === "Administrador" || "Sistemas" || "Tecnica" ? <Home /> : <Tickets /> : <Navigate to="/" />} />
           <Route path="/tickets" element={isLogged ? <Tickets /> : <Navigate to="/" />} />
           <Route path="/ticket/:ticketId" element={isLogged ? <TicketDetail /> : <Navigate to="/" />} />
           <Route path="/works/:workId" element={isLogged ? <WorkDetail /> : <Navigate to="/" />} />

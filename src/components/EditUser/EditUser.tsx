@@ -55,8 +55,8 @@ const EditUser: React.FC<EditUserProps> = ({ user, onUpdateUser }) => {
             surname: user.surname,
             userName: user.userName,
             area: user.area,
-            password: "",
-            repeatPassword: "",
+            password: user.password,
+            repeatPassword: user.password,
             role: user.role
         },
         validate,
@@ -67,7 +67,7 @@ const EditUser: React.FC<EditUserProps> = ({ user, onUpdateUser }) => {
                 name: values.name,
                 surname: values.surname,
                 userName: values.userName.toLowerCase(),
-                password: encryptPassword(values.password),
+                password: values.password != undefined ? encryptPassword(values.password) : "",
                 area: values.area,
                 role: values.role
             }
@@ -184,6 +184,8 @@ const EditUser: React.FC<EditUserProps> = ({ user, onUpdateUser }) => {
                         isInvalid={!!(formik.touched.role && formik.errors.role)}
                     >
                         <option value="Usuario">Estandar</option>
+                        <option value="Sistemas">Sistemas</option>
+                        <option value="Tecnica">Técnica</option>
                         <option value="Administrador">Administrador</option>
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">{formik.errors.role}</Form.Control.Feedback>

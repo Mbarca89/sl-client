@@ -192,6 +192,8 @@ const Register: React.FC<RegisterProps> = ({updateList}) => {
                         >
                             <option value="">Seleccionar...</option>
                             <option value="Usuario">Estandar</option>
+                            <option value="Sistemas">Sistemas</option>
+                            <option value="Tecnica">Técnica</option>
                             <option value="Administrador">Administrador</option>
                         </Form.Select>
                         <Form.Control.Feedback type="invalid">{formik.errors.role}</Form.Control.Feedback>

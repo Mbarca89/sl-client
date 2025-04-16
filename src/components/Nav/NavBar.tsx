@@ -45,7 +45,7 @@ const NavBar = () => {
                     <Navbar.Collapse id="basic-navbar-nav text-light">
                         <Nav className="me-auto">
                             <Nav.Link onClick={() => { navigate("/home/tickets"); handleNavLinkClick() }}>Inicio</Nav.Link>
-                            {user.role === "Administrador" && <NavDropdown title="Administrar" id="basic-nav-dropdown">
+                            {(user.role === "Administrador" || user.role === "Sistemas") && <NavDropdown title="Administrar" id="basic-nav-dropdown">
                                 <NavDropdown.Item onClick={() => { navigate("/users"); handleNavLinkClick() }}>Usuarios</NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => { navigate("/Statistics"); handleNavLinkClick() }}>Estadísticas</NavDropdown.Item>
                             </NavDropdown>}
