@@ -132,9 +132,9 @@ const App = () => {
           <Route path="/guide/:guideId" element={isLogged ? <GuideDetail /> : <Navigate to="/" />} />
           <Route path="/guides" element={isLogged ? <Guides /> : <Navigate to="/" />} />
           <Route path="/user" element={isLogged ? <UserDetail /> : <Navigate to="/" />} />
-          <Route path="/users" element={isLogged && user.role === "Administrador" ? <Users /> : <Navigate to="/" />} />
-          <Route path="/ticketReports" element={isLogged && user.role === "Administrador" ? <TicketReports /> : <Navigate to="/" />} />
-          <Route path="/statistics" element={isLogged && user.role === "Administrador" ? <Statistics /> : <Navigate to="/" />} />
+          <Route path="/users" element={isLogged && user.role === "Administrador" || user.role === "Sistemas" ? <Users /> : <Navigate to="/" />} />
+          <Route path="/ticketReports" element={isLogged && user.role === "Administrador"|| user.role === "Sistemas" ? <TicketReports /> : <Navigate to="/" />} />
+          <Route path="/statistics" element={isLogged && user.role === "Administrador"|| user.role === "Sistemas" ? <Statistics /> : <Navigate to="/" />} />
         </Route>
         <Route path="/" element={<Landing />} />
       </Routes>
